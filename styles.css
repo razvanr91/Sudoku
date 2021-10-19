@@ -4,6 +4,7 @@
 
 .sudoku-board {
     width: 75%;
+    height: 50vh;
     margin:auto;
 }
 
@@ -22,4 +23,21 @@
 
 [class*="col-"] {
     float:left;
+}
+
+.container {
+    border: 1px solid green ;
+    padding-bottom: 10px;
+}
+
+.square {
+    position: relative;
+    width: 100px;
+    border: 1px solid green;
+}
+
+.square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100% ;
 }
