@@ -2,10 +2,29 @@
     box-sizing: border-box;
 }
 
+.board {
+    width: 370px;
+    height: 390px;
+}
+
 .sudoku-board {
-    width: 75%;
-    height: 50vh;
-    margin:auto;
+    margin: auto;
+    top: 2rem;
+    position: relative;
+    width: 50%;
+    border: 5px solid black;
+}
+
+.sudoku-board:after {
+    content:"";
+    display: block;
+    padding-bottom: 100%;
+}
+
+@media only screen and (max-width: 450px) {
+    .sudoku-board {
+        width: 100%;
+    }
 }
 
 .col-1 {width: 11.11%; height: 11.11vh;}
@@ -23,11 +42,6 @@
 
 [class*="col-"] {
     float:left;
-}
-
-.container {
-    border: 1px solid green ;
-    padding-bottom: 10px;
 }
 
 .square {

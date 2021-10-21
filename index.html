@@ -14,12 +14,213 @@
 			crossorigin="anonymous"
 		/>
 		<link rel="stylesheet" href="styles.css" />
-		<!-- p5.js library -->
-		<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
 	</head>
 	<body>
 		<main>
-			
+			<h1 class="text-center mt-3">Sudoku</h1>
+			<div class="board mt-3 m-auto">
+				<div>
+					<table class="table table-bordered border border-5 border-dark text-center m-auto mt-5">
+					<tbody>
+						<tr>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="00">1</td>
+											<td id="01">2</td>
+											<td id="02">3</td>
+										</tr>
+										<tr>
+											<td id="03">1</td>
+											<td id="04">2</td>
+											<td id="05">3</td>
+										</tr>
+										<tr>
+											<td id="06">1</td>
+											<td id="07">2</td>
+											<td id="08">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="10">1</td>
+											<td id="11">2</td>
+											<td id="12">3</td>
+										</tr>
+										<tr>
+											<td id="13">1</td>
+											<td id="14">2</td>
+											<td id="15">3</td>
+										</tr>
+										<tr>
+											<td id="16">1</td>
+											<td id="17">2</td>
+											<td id="18">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="20">1</td>
+											<td id="21">2</td>
+											<td id="22">3</td>
+										</tr>
+										<tr>
+											<td id="23">1</td>
+											<td id="24">2</td>
+											<td id="25">3</td>
+										</tr>
+										<tr>
+											<td id="26">1</td>
+											<td id="27">2</td>
+											<td id="28">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="30">1</td>
+											<td id="31">2</td>
+											<td id="32">3</td>
+										</tr>
+										<tr>
+											<td id="33">1</td>
+											<td id="34">2</td>
+											<td id="35">3</td>
+										</tr>
+										<tr>
+											<td id="36">1</td>
+											<td id="37">2</td>
+											<td id="38">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="40">1</td>
+											<td id="41">2</td>
+											<td id="42">3</td>
+										</tr>
+										<tr>
+											<td id="43">1</td>
+											<td id="44">2</td>
+											<td id="45">3</td>
+										</tr>
+										<tr>
+											<td id="46">1</td>
+											<td id="47">2</td>
+											<td id="48">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="50">1</td>
+											<td id="51">2</td>
+											<td id="52">3</td>
+										</tr>
+										<tr>
+											<td id="53">1</td>
+											<td id="54">2</td>
+											<td id="55">3</td>
+										</tr>
+										<tr>
+											<td id="56">1</td>
+											<td id="57">2</td>
+											<td id="58">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="60">1</td>
+											<td id="61">2</td>
+											<td id="62">3</td>
+										</tr>
+										<tr>
+											<td id="63">1</td>
+											<td id="64">2</td>
+											<td id="65">3</td>
+										</tr>
+										<tr>
+											<td id="66">1</td>
+											<td id="67">2</td>
+											<td id="68">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="70">1</td>
+											<td id="71">2</td>
+											<td id="72">3</td>
+										</tr>
+										<tr>
+											<td id="73">1</td>
+											<td id="74">2</td>
+											<td id="75">3</td>
+										</tr>
+										<tr>
+											<td id="76">1</td>
+											<td id="77">2</td>
+											<td id="78">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td colspan="3" class="p-0">
+								<table class="table table-bordered border border-2 border-dark p-0 m-0">
+									<tbody>
+										<tr>
+											<td id="80">1</td>
+											<td id="81">2</td>
+											<td id="82">3</td>
+										</tr>
+										<tr>
+											<td id="83">1</td>
+											<td id="84">2</td>
+											<td id="85">3</td>
+										</tr>
+										<tr>
+											<td id="86">1</td>
+											<td id="87">2</td>
+											<td id="88">3</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
 		</main>
 		<!-- Bootstrap and Popper JS -->
 		<script
@@ -28,6 +229,5 @@
 			crossorigin="anonymous"
 		></script>
 		<script src="app.js"></script>
-		<script src="sketch.js"></script>
 	</body>
 </html>

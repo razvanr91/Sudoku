@@ -1,3 +1,16 @@
-let board = document.getElementById("board");
+let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],];
 
-console.log(100 / 9)
+for(let i = 0; i < 9; i ++) {
+    for(let j = 0; j < 9; j++) {
+        sudokuMatrix[i[j]] = j;
+        document.getElementById(`${i}${j}`).innerHTML = sudokuMatrix[i[j]];
+    }
+}
