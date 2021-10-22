@@ -45,14 +45,18 @@ for(let i = 1; i <= 9; i ++) {
 // }
 
 
-for(let x = 0; x < 9 ; x++) {
-    
-}
-
 
 function generateRandomBoard() {
-
+    for(let i = 0; i < 9; i++) {
+        let array = randomArray();
+        for(let j = 0; j < 9; j++) {
+            sudokuMatrix[i[j]] = array[j];
+            document.getElementById(`${i+1}${j+1}`).innerHTML = sudokuMatrix[i[j]];
+        }
+    }
 }
+
+generateRandomBoard();
 
 function randomArray() {
     let randomArray = [];
