@@ -1,23 +1,25 @@
-let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0]];
+// let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0],
+//                     [0,0,0,0,0,0,0,0,0]];
 
-let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0]];
+// let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0],
+//                             [0,0,0,0,0,0,0,0,0]];
 
+
+let sudokuMatrix = new Map();
 
 // for(let x = 0; x < 9; x++) {
 //     for(let i = 0; i < 3; i++) {
@@ -46,29 +48,12 @@ function checkForDuplicatesOnRow(number, square) {
     return false;
 }
 
-
 function generateRandomBoard() {
-    let arraysGenerated = 0;
-    let currentSquare = 1;
-    let allNumbers = [];
-    let duplicate = false;
-    while(currentSquare <= 9) {
+    for(let i = 1; i <= 9; i++) {
         let array = randomArray();
-        if(arraysGenerated === 0) {
-            arraysGenerated++;
-            for(let j = 0; j < 9; j++) {
-                sudokuMatrix[currentSquare[j]] = array[j];
-                document.getElementById(`${currentSquare}${j+1}`).innerHTML = sudokuMatrix[currentSquare[j]];
-                allNumbers.push(array[j]);
-            }
-            ++currentSquare;
-        } else {
-            for(let i = 1; i <= 9; i++) {
-                sudokuMatrix[currentSquare[i]] = array[i-1];
-                document.getElementById(`${currentSquare}${i}`).innerHTML = sudokuMatrix[currentSquare[i-1]];
-            }
-            arraysGenerated++;
-            currentSquare++;
+        sudokuMatrix.set(i, array);
+        for(let j = 0; j < sudokuMatrix.get(i).length; j++) {
+            document.getElementById(`${i}${j+1}`).innerHTML = sudokuMatrix.get(i)[j];
         }
     }
 }
