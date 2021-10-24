@@ -41,14 +41,19 @@ let sudokuMatrix = new Map();
 // }
 
 
-function checkForDuplicatesOnRow(number, square) {
-    if(number === sudokuMatrix[square+1[0]] || number === sudokuMatrix[square+1[1]] || number === sudokuMatrix[square+1[2]]) {
-        return true;
-    }
-    return false;
+function checkForDuplicatesOnRow(square, number) {
+    let arrayToCheck = sudokuMatrix.get(square);
+    return (arrayToCheck[0] === number) || (arrayToCheck[1] === number) || (arrayToCheck[2] === number);
+}
+
+function checkForDuplicatesOnColumn(square, number) {
+    let arrayToCheck = sudokuMatrix.get(square);
+    return (arrayToCheck[0] === number) || (arrayToCheck[3] === number) || (arrayToCheck[6] === number);
 }
 
 function generateRandomBoard() {
+    sudokuMatrix.set(1, randomArray());
+    let squares = 1;
     for(let i = 1; i <= 9; i++) {
         let array = randomArray();
         sudokuMatrix.set(i, array);
