@@ -1,70 +1,81 @@
-// let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0],
-//                     [0,0,0,0,0,0,0,0,0]];
+let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0]];
 
-// let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0],
-//                             [0,0,0,0,0,0,0,0,0]];
-
-
-let sudokuMatrix = new Map();
-
-// for(let x = 0; x < 9; x++) {
-//     for(let i = 0; i < 3; i++) {
-//         for(let j = 0; j < 3; j++) {
-//             if(i === 0) {
-//                 sudokuMatrix[i[j]] = j+1;
-//                 document.getElementById(`${i+1}${j+1}`).innerHTML = sudokuMatrix[i[j]];
-//             }
-//             if(i === 1) {
-//                 sudokuMatrix[i[j]] = j + 4;
-//                 document.getElementById(`${i+1}${j+1}`).innerHTML = sudokuMatrix[i[j]];
-//             }
-//             if(i === 2) {
-//                 sudokuMatrix[i[j]] = j + 7;
-//                 document.getElementById(`${i+1}${j+1}`).innerHTML = sudokuMatrix[i[j]];
-//             }
-//         }
-//     }
-// }
+let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0]];
 
 
-function checkForDuplicatesOnRow(square, number) {
-    let arrayToCheck = sudokuMatrix.get(square);
-    return (arrayToCheck[0] === number) || (arrayToCheck[1] === number) || (arrayToCheck[2] === number);
+console.log(8 % 3)
+
+function getEmptyCell() {
+    let emptyCell = {row: "", col: ""};
+
+    resolvedSudokuMatrix.forEach((row, index) => {
+        let firstCell = row.find(column => column === 0);
+
+        if(firstCell === undefined) return;
+
+        emptyCell.row = index;
+        emptyCell.col = row.indexOf(firstCell);
+    });
+
+    if(emptyCell.col !== "") return emptyCell;
+
+
+    return false;
 }
 
-function checkForDuplicatesOnColumn(square, number) {
-    let arrayToCheck = sudokuMatrix.get(square);
-    return (arrayToCheck[0] === number) || (arrayToCheck[3] === number) || (arrayToCheck[6] === number);
+function checkRow(emptyCell, number) {
+    return resolvedSudokuMatrix[emptyCell.row].indexOf(number) === -1;
 }
 
-function generateRandomBoard() {
-    sudokuMatrix.set(1, randomArray());
-    let squares = 1;
-    for(let i = 1; i <= 9; i++) {
-        let array = randomArray();
-        sudokuMatrix.set(i, array);
-        for(let j = 0; j < sudokuMatrix.get(i).length; j++) {
-            document.getElementById(`${i}${j+1}`).innerHTML = sudokuMatrix.get(i)[j];
+function checkCol(emptyCell, number) {
+    return !resolvedSudokuMatrix.some(row => row[emptyCell.col] === number);
+}
+
+function checkSquare(emptyCell, number) {
+    let squareTopRow = emptyCell.row - (emptyCell.row % 3);
+    let squareFirstCol = emptyCell.col - (emptyCell.col % 3);
+    let isClear = true;
+
+    for(let i = 0; i < 3; i++) {
+        for(let j = 0; j < 3; j++) {
+            if(resolvedSudokuMatrix[squareTopRow + i][squareFirstCol + j] === number) isClear = false;
         }
     }
+
+    return isClear;
 }
 
-generateRandomBoard();
+function generateBoard() {
+    let emptyCell = getEmptyCell(resolvedSudokuMatrix);
+    if(!emptyCell) return resolvedSudokuMatrix;
+    let randomNumbers = randomArray();
+    for(number of randomNumbers) {
+        if(checkRow(emptyCell, number) && checkCol(emptyCell,number) && checkSquare(emptyCell, number)) {
+            resolvedSudokuMatrix[emptyCell.row][emptyCell.col] = number;
+            document.getElementById(`${emptyCell.row + 1}${emptyCell.col+1}`).innerHTML = number;
+            return generateBoard();
+        }
+    }
 
+} 
+
+generateBoard();
 
 
 function randomArray() {
