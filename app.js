@@ -10,7 +10,7 @@ let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
 
 let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
-                            [0,0,0,0,0,0,0,0,0],
+                            [1,0,0,0,1,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
@@ -18,65 +18,36 @@ let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0]];
 
-
-console.log(8 % 3)
-
-function getEmptyCell() {
-    let emptyCell = {row: "", col: ""};
-
-    resolvedSudokuMatrix.forEach((row, index) => {
-        let firstCell = row.find(column => column === 0);
-
-        if(firstCell === undefined) return;
-
-        emptyCell.row = index;
-        emptyCell.col = row.indexOf(firstCell);
-    });
-
-    if(emptyCell.col !== "") return emptyCell;
-
-
-    return false;
+function checkRow(row, number) {
+    return row.indexOf(number) === -1;
 }
 
-function checkRow(emptyCell, number) {
-    return resolvedSudokuMatrix[emptyCell.row].indexOf(number) === -1;
+function checkCol(col, number) {
+    return col.indexOf(number) === -1;
 }
 
-function checkCol(emptyCell, number) {
-    return !resolvedSudokuMatrix.some(row => row[emptyCell.col] === number);
+function getSquare(index) {
+    
 }
 
-function checkSquare(emptyCell, number) {
-    let squareTopRow = emptyCell.row - (emptyCell.row % 3);
-    let squareFirstCol = emptyCell.col - (emptyCell.col % 3);
-    let isClear = true;
+function getRow(index) {
+    return resolvedSudokuMatrix[index];
+}
 
-    for(let i = 0; i < 3; i++) {
-        for(let j = 0; j < 3; j++) {
-            if(resolvedSudokuMatrix[squareTopRow + i][squareFirstCol + j] === number) isClear = false;
-        }
+function getCol(index) {
+    let columnArray = [];
+    for(let i = 0; i < 9; i++) {
+        columnArray.push(resolvedSudokuMatrix[i][index]);
     }
-
-    return isClear;
+    return columnArray;
 }
 
 function generateBoard() {
-    let emptyCell = getEmptyCell(resolvedSudokuMatrix);
-    if(!emptyCell) return resolvedSudokuMatrix;
-    let randomNumbers = randomArray();
-    for(number of randomNumbers) {
-        if(checkRow(emptyCell, number) && checkCol(emptyCell,number) && checkSquare(emptyCell, number)) {
-            resolvedSudokuMatrix[emptyCell.row][emptyCell.col] = number;
-            document.getElementById(`${emptyCell.row + 1}${emptyCell.col+1}`).innerHTML = number;
-            return generateBoard();
-        }
-    }
-
-} 
+    console.log(getRow(2));
+    console.log(getCol(4));
+}
 
 generateBoard();
-
 
 function randomArray() {
     let randomArray = [];
