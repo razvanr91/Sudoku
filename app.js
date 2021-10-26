@@ -31,11 +31,11 @@ function checkSquare(square, number) {
     return square.indexOf(number) === -1;
 }
 
-function checkConditions(square, col,row,number) {
-    let squareArray = getSquare(row,col);
-    let colArray = getCol(col);
-    let rowArray = getRow(row);
-    return checkSquare(squareArray, number) && checkCol(colArray, number) && checkRow(rowArray, number);
+function checkConditions( col,row,number) {
+        let squareArray = getSquare(row,col);
+        let colArray = getCol(col);
+        let rowArray = getRow(row);
+        return checkSquare(squareArray, number) && checkCol(colArray, number) && checkRow(rowArray, number);
 }
 
 function getSquare(rowIndex,colIndex) {
@@ -68,29 +68,72 @@ function addNumber(rowIndex, colIndex, number) {
     document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
 }
 
+let generatedNumbers = 0;
+
 function generateBoard() {
     let emptyCell = getEmptyCell();
     let rowIndex = emptyCell[0];
     let colIndex = emptyCell[1];
-    let square = getSquare(rowIndex, colIndex);
+    let number = generateRandomNumber();
+
 
     if(rowIndex === -1) {
         return resolvedSudokuMatrix;
     }
 
-    for(i = 1; i <= 9; i++) {
-        if(checkConditions(square, colIndex, rowIndex, i)) {
-            addNumber(rowIndex,colIndex,i);
-            generateBoard()
-        }
+
+
+    while(generatedNumbers < 81) {
+        setTimeout(() => {
+            if(checkConditions(colIndex, rowIndex, number)) {
+                addNumber(rowIndex, colIndex, number);
+                generatedNumbers++;
+                generateBoard();
+            } else {
+                generateBoard();
+            }
+        }, 1)
     }
 
     if(getEmptyCell()[0] !== -1) {
         resolvedSudokuMatrix[rowIndex][colIndex] = 0;
     }
-
     return resolvedSudokuMatrix;
+}
 
+// generateBoard();
+
+function addArray(row, randomNumbers) {
+    resolvedSudokuMatrix[row] = randomNumbers;
+    for(let i = 1; i <= 9; i++) {
+        document.getElementById(`${row+1}${i}`).innerHTML = randomNumbers[i-1];
+    }
+}
+
+function checkArray(col, row) {
+    let randomNumbers = randomArray();
+    let safe = false;
+    let numsChecked = 0;
+    for(let i = 0; i < 9; i++) {
+        if(checkConditions(col,row,randomNumbers[i])) numsChecked++;
+    }
+
+    if(numsChecked === 9) {
+        safe = true;
+    } else {
+        setTimeout(() => {checkArray(col,row)}, 10)
+    }
+    if(safe) {
+        return randomNumbers;
+    }
+
+    return checkArray(col,row);
+}
+
+function resetRow(row) {
+    for(let i = 0; i < 9; i++) {
+        row[i] = 0;
+    }
 }
 
 function generateRandomNumber() {
@@ -109,19 +152,19 @@ function getEmptyCell() {
     return [-1, -1];
 }
 
-generateBoard();
 
-// function randomArray() {
-//     let randomArray = [];
 
-//     while(randomArray.length < 9) {
-//         let randomNumber = Math.floor(Math.random() * 9 + 1);
-//         if(randomArray.includes(randomNumber) && randomNumber != 0) {
-//             randomNumber = Math.floor(Math.random() * 9);
-//         } else {
-//             randomArray.push(randomNumber);
-//         }
-//     }
+function randomArray() {
+    let randomArray = [];
 
-//     return randomArray;
-// }
+    while(randomArray.length < 9) {
+        let randomNumber = Math.floor(Math.random() * 9 + 1);
+        if(randomArray.includes(randomNumber) && randomNumber != 0) {
+            randomNumber = Math.floor(Math.random() * 9);
+        } else {
+            randomArray.push(randomNumber);
+        }
+    }
+
+    return randomArray;
+}
