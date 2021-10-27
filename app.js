@@ -18,7 +18,9 @@ let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0]];
 
+let numbers = [1,2,3,4,5,6,7,8,9];
 
+let numCount = 0;
 function checkRow(row, number) {
     return row.indexOf(number) === -1;
 }
@@ -67,41 +69,108 @@ function addNumber(rowIndex, colIndex, number) {
     resolvedSudokuMatrix[rowIndex][colIndex] = number;
     document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
 }
+function resetBoard() {
+    let zeroArray = [0,0,0,0,0,0,0,0,0];
+    generatedNumbers = 0;
+    for(let i = 0; i < 9; i++) {
+        resolvedSudokuMatrix[i] = zeroArray;
+    };
 
-let generatedNumbers = 0;
+}
+
+function getEmptyCell() {
+    // for(let i = 0; i < 9; i++) {
+    //     for(let j = 0; j < 9; j++) {
+    //         if(resolvedSudokuMatrix[i][j] === 0) {
+    //             return [i, j];
+    //         }
+    //     }
+    // }
+
+    // return [-1, -1];
+
+    let emptyCell = {row: "", col: ""};
+
+    resolvedSudokuMatrix.forEach((row, rowIndex) => {
+        if(emptyCell.col !== "") return;
+
+        let firstZero = row.find(col => col === 0);
+
+        if(firstZero === undefined) return;
+
+        emptyCell.row = rowIndex;
+        emptyCell.col = row.indexOf(firstZero);
+    })
+
+    if(emptyCell.col !== "") return emptyCell;
+
+    return false;
+}
 
 function generateBoard() {
     let emptyCell = getEmptyCell();
-    let rowIndex = emptyCell[0];
-    let colIndex = emptyCell[1];
-    let number = generateRandomNumber();
 
-
-    if(rowIndex === -1) {
+    if(!emptyCell) {
         return resolvedSudokuMatrix;
     }
 
-
-
-    while(generatedNumbers < 81) {
-        setTimeout(() => {
+    let rowIndex = parseInt(emptyCell.row);
+    let colIndex = parseInt(emptyCell.col);
+    // for(let i = 0; i < 9; i++) {
+    //     for(let j = 0; j < 9; j++) {
+    //         while(true) {
+    //             let randomArrays = randomArraysGenerator(numbers);
+    //             if(!checkConditions(j,i,randomArrays[i][j])) {
+    //                 addNumber(i,j,randomArrays[i][j]);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+    try {
+        for(number of shuffleArray(numbers)) {
             if(checkConditions(colIndex, rowIndex, number)) {
                 addNumber(rowIndex, colIndex, number);
-                generatedNumbers++;
                 generateBoard();
-            } else {
-                generateBoard();
+
+                if(generateBoard()) {
+                    return resolvedSudokuMatrix();
+                }
+
+                resolvedSudokuMatrix[rowIndex][colIndex] = 0;
+                
             }
-        }, 1)
+        }
+    } catch (err) {
     }
 
-    if(getEmptyCell()[0] !== -1) {
-        resolvedSudokuMatrix[rowIndex][colIndex] = 0;
-    }
-    return resolvedSudokuMatrix;
+    return false;
 }
 
-// generateBoard();
+function randomArraysGenerator(array) {
+    let randomArrays = [];
+
+    for(let i = 0; i < 9; i++ ) {
+        randomArrays.push(shuffleArray(array));
+    }
+
+    return randomArrays;
+}
+
+generateBoard();
+
+function shuffleArray(array) {
+    let shuffledArray = [];
+
+    while(shuffledArray.length < array.length) {
+        let number = array[Math.floor(Math.random() * array.length)];
+        if(!(shuffledArray.indexOf(number) >= 0)) shuffledArray.push(number);
+    }
+
+    return shuffledArray;
+}
+
+
 
 function addArray(row, randomNumbers) {
     resolvedSudokuMatrix[row] = randomNumbers;
@@ -140,17 +209,7 @@ function generateRandomNumber() {
     return Math.floor(Math.random() * 9 + 1);
 }
 
-function getEmptyCell() {
-    for(let i = 0; i < 9; i++) {
-        for(let j = 0; j < 9; j++) {
-            if(resolvedSudokuMatrix[i][j] === 0) {
-                return [i, j];
-            }
-        }
-    }
 
-    return [-1, -1];
-}
 
 
 
