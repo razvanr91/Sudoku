@@ -20,7 +20,7 @@ let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
 
 let numbers = [1,2,3,4,5,6,7,8,9];
 
-let numCount = 0;
+
 function checkRow(row, number) {
     return row.indexOf(number) === -1;
 }
@@ -65,10 +65,11 @@ function getCol(index) {
     return columnArray;
 }
 
-function addNumber(rowIndex, colIndex, number) {
-    resolvedSudokuMatrix[rowIndex][colIndex] = number;
-    document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
+function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
+    matrix[rowIndex][colIndex] = number;
+    number === 0 ? document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = "0" : document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
 }
+
 function resetBoard() {
     let zeroArray = [0,0,0,0,0,0,0,0,0];
     generatedNumbers = 0;
@@ -79,15 +80,6 @@ function resetBoard() {
 }
 
 function getEmptyCell() {
-    // for(let i = 0; i < 9; i++) {
-    //     for(let j = 0; j < 9; j++) {
-    //         if(resolvedSudokuMatrix[i][j] === 0) {
-    //             return [i, j];
-    //         }
-    //     }
-    // }
-
-    // return [-1, -1];
 
     let emptyCell = {row: "", col: ""};
 
@@ -116,17 +108,6 @@ function generateBoard() {
 
     let rowIndex = parseInt(emptyCell.row);
     let colIndex = parseInt(emptyCell.col);
-    // for(let i = 0; i < 9; i++) {
-    //     for(let j = 0; j < 9; j++) {
-    //         while(true) {
-    //             let randomArrays = randomArraysGenerator(numbers);
-    //             if(!checkConditions(j,i,randomArrays[i][j])) {
-    //                 addNumber(i,j,randomArrays[i][j]);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
     try {
         for(number of shuffleArray(numbers)) {
             if(checkConditions(colIndex, rowIndex, number)) {
@@ -147,6 +128,38 @@ function generateBoard() {
     return false;
 }
 
+function copyBoards() {
+    for(let i = 0; i < 9; i++) {
+        for(let j = 0; j < 9; j++) {
+            sudokuMatrix[i][j] = resolvedSudokuMatrix[i][j];
+        }
+    }
+}
+
+function produceEmptyCells() {
+    copyBoards();
+    let numbersPerRow = 0;
+    for(let i = 0; i < 9; i++) {
+        while(numbersPerRow < 5) {
+            let number = generateRandomNumber();
+            if(sudokuMatrix[i][number] !== 0) {
+                sudokuMatrix[i][number] = 0;
+                ++numbersPerRow;
+            }
+        }
+        numbersPerRow = 0;
+    }
+}
+
+function showPlayableBoard() {
+    for(let i = 0; i < 9; i++) {
+        for(let j = 0; j < 9; j++) {
+            let number = sudokuMatrix[i][j];
+            addNumber(i,j,number,sudokuMatrix);
+        }
+    }
+}
+
 function randomArraysGenerator(array) {
     let randomArrays = [];
 
@@ -157,7 +170,14 @@ function randomArraysGenerator(array) {
     return randomArrays;
 }
 
-generateBoard();
+function playGame() {
+    generateBoard();
+    copyBoards();
+    produceEmptyCells();
+    showPlayableBoard();
+}
+
+playGame();
 
 function shuffleArray(array) {
     let shuffledArray = [];
@@ -206,11 +226,8 @@ function resetRow(row) {
 }
 
 function generateRandomNumber() {
-    return Math.floor(Math.random() * 9 + 1);
+    return Math.floor(Math.random() * 9);
 }
-
-
-
 
 
 function randomArray() {
