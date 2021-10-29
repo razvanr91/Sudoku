@@ -2,56 +2,59 @@
     box-sizing: border-box;
 }
 
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex,
+.flex>div {
+    color: #145492;
+    border: solid 1px;
+    width: 33.33%;
+    text-align: center;
+}
+
+.flex>div:before {
+    display: inline-block;
+    padding-top: 100%;
+    content: '';
+    vertical-align: middle;
+}
+
 .board {
-    width: 370px;
-    height: 390px;
-}
-
-.sudoku-board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 40%;
+    /* resize here or let window do it */
+    min-width: 350px;
     margin: auto;
-    top: 2rem;
-    position: relative;
-    width: 50%;
-    border: 5px solid black;
+    font-size: calc(0.5vw + 10px)
 }
 
-.sudoku-board:after {
-    content:"";
-    display: block;
-    padding-bottom: 100%;
+div:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.25);
 }
 
-@media only screen and (max-width: 450px) {
-    .sudoku-board {
-        width: 100%;
-    }
+div.flex div:nth-child(odd) {
+    color: white;
+    text-shadow: 1px 1px 1px black;
 }
 
-.col-1 {width: 11.11%; height: 11.11vh;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-
-[class*="col-"] {
-    float:left;
+/* fill with numbers*/
+div.flex {
+    counter-reset: sudo;
 }
 
-.square {
-    position: relative;
-    width: 100px;
-    border: 1px solid green;
+div.flex div {
+    font-size: 0;
+    counter-increment: sudo;
+    color: gray;
+    text-shadow: 1px 1px 1px white;
 }
 
-.square:after {
-    content: "";
-    display: block;
-    padding-bottom: 100% ;
+div.flex div:after {
+    /* content: counter(sudo); */
+    font-size: calc(1vw + 10px);
+    vertical-align: middle;
 }

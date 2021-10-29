@@ -67,7 +67,7 @@ function getCol(index) {
 
 function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
     matrix[rowIndex][colIndex] = number;
-    number === 0 ? document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = "0" : document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
+    number === 0 ? document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = `&nbsp;`: document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
 }
 
 function resetBoard() {
