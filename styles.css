@@ -41,20 +41,15 @@ div.flex div:nth-child(odd) {
     text-shadow: 1px 1px 1px black;
 }
 
-/* fill with numbers*/
-div.flex {
-    counter-reset: sudo;
-}
 
 div.flex div {
     font-size: 0;
-    counter-increment: sudo;
     color: gray;
     text-shadow: 1px 1px 1px white;
 }
 
 div.flex div:after {
-    /* content: counter(sudo); */
+    content: "";
     font-size: calc(1vw + 10px);
     vertical-align: middle;
 }
