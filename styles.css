@@ -1,55 +1,23 @@
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
+	margin: auto;
 }
 
-.flex {
-    display: flex;
-    flex-wrap: wrap;
+table {
+	text-align: center;
+	border: 3px solid black;
 }
 
-.flex,
-.flex>div {
-    color: #145492;
-    border: solid 1px;
-    width: 33.33%;
-    text-align: center;
+td {
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
 }
 
-.flex>div:before {
-    display: inline-block;
-    padding-top: 100%;
-    content: '';
-    vertical-align: middle;
+td:nth-of-type(3n) {
+	border-right: 3px solid black;
 }
 
-.board {
-    display: flex;
-    flex-wrap: wrap;
-    width: 40%;
-    /* resize here or let window do it */
-    min-width: 350px;
-    margin: auto;
-    font-size: calc(0.5vw + 10px)
-}
-
-div:nth-child(odd) {
-    background: rgba(0, 0, 0, 0.25);
-}
-
-div.flex div:nth-child(odd) {
-    color: white;
-    text-shadow: 1px 1px 1px black;
-}
-
-
-div.flex div {
-    font-size: 0;
-    color: gray;
-    text-shadow: 1px 1px 1px white;
-}
-
-div.flex div:after {
-    content: "";
-    font-size: calc(1vw + 10px);
-    vertical-align: middle;
+tr:nth-of-type(3n) td {
+	border-bottom: 3px solid black;
 }
