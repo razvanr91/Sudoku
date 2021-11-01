@@ -52,3 +52,11 @@ tr:nth-of-type(3n) td {
 	overflow: auto;
 	overflow-y: auto;
 }
+
+.control-panel {
+	display: flex;
+	justify-content: center;
+	width: 60%;
+	justify-content: center;
+	margin: auto;
+}

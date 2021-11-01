@@ -20,6 +20,8 @@
 
 	<body>
 		<h1 class="text-center mt-3">SUDOKU</h1>
+
+		<!-- Sudoku Board -->
 		<div class="container mt-5 w-75 align-content-center">
 			<table>
 				<tbody>
@@ -124,7 +126,12 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="control-panel my-2">
+				<button class="btn btn-success mx-2 ">Solve Sudoku</button>
+				<button class="btn btn-warning text-white">Check Sudoku</button>
+			</div>
 
+			<!-- Number choice modal -->
 			<div class="modal" tabindex="-1" id="numberModal">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -132,7 +139,7 @@
 							<h5 class="modal-title">Add Choice</h5>
 						</div>
 						<div class="modal-body">
-							<form >
+							<form>
 								<div class="row my-2">
 									<div class="col">
 										<input type="radio" class="btn-check" name="choice" id="1" autocomplete="off" value="1" />
@@ -182,6 +189,14 @@
 							<button type="button" class="btn btn-primary" id="makeChoice" onclick="getOption()">Save changes</button>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<!-- Toast -->
+			<div class="toast align-items-center text-white border-0" id="toastAlert" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="d-flex">
+					<div class="toast-body" id='toastMessage'></div>
+					<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
 				</div>
 			</div>
 		</div>

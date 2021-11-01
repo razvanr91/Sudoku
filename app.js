@@ -20,6 +20,9 @@ let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
 
 let numbers = [1,2,3,4,5,6,7,8,9];
 
+let toastEl = document.getElementById("toastAlert");
+let toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+
 let modalEl = document.getElementById("numberModal");
 
 let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -52,14 +55,34 @@ cells.forEach(cell => {
     }
 });
 
+function completeBoard() {
+    for(let i = 0; i < 9; i++) {
+        for(let j = 0; j < 9; j++) {
+            let selectedCell = {cellRow : i + 1, cellCol: j + 1};
+            
+        }
+    }
+}
+
 function getOption() {
-    if(form.elements.choice.value !== '') {
-        addNumber(selectedCell.cellRow, selectedCell.cellCol, form.elements.choice.value, sudokuMatrix);
-        document.getElementById(`${selectedCell.cellRow+1}${selectedCell.cellCol+1}`).style.backgroundColor = '#495867';
+    let choseOption = form.elements.choice.value;
+    if(choseOption !== '') {
+        if(choseOption === resolvedSudokuMatrix[selectedCell.cellRow][selectedCell.cellCol]) {
+            addNumber(selectedCell.cellRow, selectedCell.cellCol, choseOption, sudokuMatrix);
+            document.getElementById(`${selectedCell.cellRow+1}${selectedCell.cellCol+1}`).style.backgroundColor = '#495867';
+        } else {
+            toastEl.classList.add('bg-danger');
+            document.getElementById('toastMessage').innerHTML = "The number you entered is wrong. Please choose wisely."
+            toast.show();
+        }
+
+    } else {
+        document.getElementById('toastMessage').innerHTML = "Please choose a number."
+        toastEl.classList.add('bg-danger');
+        toast.show();
     }
     
     modal.hide();
-    console.log(form.elements.choice.value);
     form.reset();
 }
 
@@ -113,14 +136,6 @@ function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
     number === 0 ? cell.innerHTML = `&nbsp;`: cell.innerHTML = number;
 }
 
-function resetBoard() {
-    let zeroArray = [0,0,0,0,0,0,0,0,0];
-    generatedNumbers = 0;
-    for(let i = 0; i < 9; i++) {
-        resolvedSudokuMatrix[i] = zeroArray;
-    };
-
-}
 
 function guessNumber() {
     modal.style.display = true;
@@ -265,13 +280,6 @@ function checkArray(col, row) {
 
     return checkArray(col,row);
 }
-
-function resetRow(row) {
-    for(let i = 0; i < 9; i++) {
-        row[i] = 0;
-    }
-}
-
 
 function generateRandomNumber() {
     return Math.floor(Math.random() * 9);
