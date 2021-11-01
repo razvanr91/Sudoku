@@ -20,6 +20,48 @@ let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
 
 let numbers = [1,2,3,4,5,6,7,8,9];
 
+let modalEl = document.getElementById("numberModal");
+
+let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+let cells = Array.from(document.getElementsByTagName('td'));
+
+let choice = document.getElementById('makeChoice');
+
+let form = document.querySelector('form');
+
+// Used to pass data from the clicked cell
+let selectedCell;
+
+choice.addEventListener('click', () => getOption);
+
+cells.forEach(cell => {
+    
+    if(cell.innerHTML === '') {
+        cell.addEventListener('click', () => {
+            let cellRow = parseInt(cell.id[0]) - 1;
+            let cellCol = parseInt(cell.id[1]) - 1;
+            if(sudokuMatrix[cellRow][cellCol] === 0) {
+                modal.show();
+                selectedCell = {
+                    cellRow : cellRow,
+                    cellCol : cellCol
+                }
+            }
+        })
+    }
+});
+
+function getOption() {
+    if(form.elements.choice.value !== '') {
+        addNumber(selectedCell.cellRow, selectedCell.cellCol, form.elements.choice.value, sudokuMatrix);
+        document.getElementById(`${selectedCell.cellRow+1}${selectedCell.cellCol+1}`).style.backgroundColor = '#495867';
+    }
+    
+    modal.hide();
+    console.log(form.elements.choice.value);
+    form.reset();
+}
 
 function checkRow(row, number) {
     return row.indexOf(number) === -1;
@@ -66,8 +108,9 @@ function getCol(index) {
 }
 
 function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
+    let cell = document.getElementById(`${rowIndex+1}${colIndex+1}`);
     matrix[rowIndex][colIndex] = number;
-    number === 0 ? document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = `&nbsp;`: document.getElementById(`${rowIndex+1}${colIndex+1}`).innerHTML = number;
+    number === 0 ? cell.innerHTML = `&nbsp;`: cell.innerHTML = number;
 }
 
 function resetBoard() {
@@ -77,6 +120,10 @@ function resetBoard() {
         resolvedSudokuMatrix[i] = zeroArray;
     };
 
+}
+
+function guessNumber() {
+    modal.style.display = true;
 }
 
 function getEmptyCell() {
@@ -224,6 +271,7 @@ function resetRow(row) {
         row[i] = 0;
     }
 }
+
 
 function generateRandomNumber() {
     return Math.floor(Math.random() * 9);

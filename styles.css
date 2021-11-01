@@ -1,3 +1,11 @@
+body {
+	background-color: #ce796b;
+}
+
+h1 {
+	color: #6d6875;
+}
+
 * {
 	box-sizing: border-box;
 	margin: auto;
@@ -5,19 +13,42 @@
 
 table {
 	text-align: center;
-	border: 3px solid black;
+	border: 3px solid #495867;
+	background-color: #ecc8af;
 }
 
 td {
+	color: #ce796b;
 	width: 50px;
 	height: 50px;
-	border: 1px solid black;
+	border: 1px solid #495867;
+	cursor: pointer;
+
+	user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+	
+}
+
+td:hover {
+	background-color: #cfb2b8;
 }
 
 td:nth-of-type(3n) {
-	border-right: 3px solid black;
+	border-right: 3px solid #495867;
 }
 
 tr:nth-of-type(3n) td {
-	border-bottom: 3px solid black;
+	border-bottom: 3px solid #495867;
+}
+
+#numberModal {
+	position: absolute;
+	top: 0;
+	right: -1000px;
+	z-index: 10040;
+	overflow: auto;
+	overflow-y: auto;
 }
