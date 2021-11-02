@@ -71,23 +71,6 @@ cells.forEach(cell => {
     }
 });
 
-function startTimerFunction() {
-
-    let timer = setInterval(() => {
-        if (seconds === 59) {
-            seconds = 0;
-            ++minutes;
-        }
-        if (minutes === 60) {
-            ++hours;
-            minutes = 0;
-        }
-        seconds++;
-        document.getElementById('timerDisplay').innerHTML = `${hours > 10 ? hours : '0' + hours}:${minutes > 10 ? minutes : '0' + minutes}:${seconds > 10 ? seconds : '0' + seconds}`;
-    }, 1000);
-}
-
-
 // Solve Sudoku function
 function solveSudoku() {
     for (let i = 0; i < 9; i++) {
@@ -246,7 +229,7 @@ function generateBoard() {
                 generateBoard();
 
                 if (generateBoard()) {
-                    return resolvedSudokuMatrix();
+                    return resolvedSudokuMatrix;
                 }
 
                 resolvedSudokuMatrix[rowIndex][colIndex] = 0;
@@ -294,17 +277,6 @@ function showPlayableBoard() {
     }
 }
 
-// Generates an array of random numbers
-function randomArraysGenerator(array) {
-    let randomArrays = [];
-
-    for (let i = 0; i < 9; i++) {
-        randomArrays.push(shuffleArray(array));
-    }
-
-    return randomArrays;
-}
-
 // Starts the game
 function playGame() {
     generateBoard();
@@ -324,27 +296,6 @@ function shuffleArray(array) {
     }
 
     return shuffledArray;
-}
-
-// Checks if an array is safe to be added to the board
-function checkArray(col, row) {
-    let randomNumbers = randomArray();
-    let safe = false;
-    let numsChecked = 0;
-    for (let i = 0; i < 9; i++) {
-        if (checkConditions(col, row, randomNumbers[i])) numsChecked++;
-    }
-
-    if (numsChecked === 9) {
-        safe = true;
-    } else {
-        setTimeout(() => { checkArray(col, row) }, 10)
-    }
-    if (safe) {
-        return randomNumbers;
-    }
-
-    return checkArray(col, row);
 }
 
 // Generates a random number
