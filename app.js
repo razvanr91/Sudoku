@@ -71,6 +71,116 @@ cells.forEach(cell => {
     }
 });
 
+//Generates the unique board
+function generateBoard() {
+    let emptyCell = getEmptyCell();
+
+    if (!emptyCell) {
+        return resolvedSudokuMatrix;
+    }
+
+    let rowIndex = parseInt(emptyCell.row);
+    let colIndex = parseInt(emptyCell.col);
+    try {
+        for (number of shuffleArray(numbers)) {
+            if (checkConditions(colIndex, rowIndex, number)) {
+                addNumber(rowIndex, colIndex, number);
+                generateBoard();
+
+                if (generateBoard()) {
+                    return resolvedSudokuMatrix;
+                }
+
+                resolvedSudokuMatrix[rowIndex][colIndex] = 0;
+
+            }
+        }
+    } catch (err) {
+    }
+
+    return false;
+}
+
+// Gets the first available cell
+function getEmptyCell() {
+
+    let emptyCell = { row: "", col: "" };
+
+    resolvedSudokuMatrix.forEach((row, rowIndex) => {
+        if (emptyCell.col !== "") return;
+
+        let firstZero = row.find(col => col === 0);
+
+        if (firstZero === undefined) return;
+
+        emptyCell.row = rowIndex;
+        emptyCell.col = row.indexOf(firstZero);
+    })
+
+    if (emptyCell.col !== "") return emptyCell;
+
+    return false;
+}
+
+// Returns an array with all the numbers in a square
+function getSquare(rowIndex, colIndex) {
+    let squareStartRow = rowIndex - (rowIndex % 3);
+    let squareStartCol = colIndex - (colIndex % 3);
+    let squareArray = [];
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            squareArray.push(resolvedSudokuMatrix[squareStartRow + i][squareStartCol + j]);
+        }
+    }
+
+    return squareArray;
+}
+
+// Returns an array with all the numbers in a row
+function getRow(index) {
+    return resolvedSudokuMatrix[index];
+}
+
+// Returns an array with all the numbers in a column
+function getCol(index) {
+    let columnArray = [];
+    for (let i = 0; i < 9; i++) {
+        columnArray.push(resolvedSudokuMatrix[i][index]);
+    }
+    return columnArray;
+}
+
+// Checks row if it has the digit
+function checkRow(row, number) {
+    return row.indexOf(number) === -1;
+}
+
+// Checks column if it has the digit
+function checkCol(col, number) {
+    return col.indexOf(number) === -1;
+}
+
+// Checs square if it has the digit
+function checkSquare(square, number) {
+    return square.indexOf(number) === -1;
+}
+
+// Checks all conditions for the chosen number
+function checkConditions(col, row, number) {
+    let squareArray = getSquare(row, col);
+    let colArray = getCol(col);
+    let rowArray = getRow(row);
+    return checkSquare(squareArray, number) && checkCol(colArray, number) && checkRow(rowArray, number);
+}
+
+// Adds a number to one of the matrix
+function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
+    let cell = document.getElementById(`${rowIndex + 1}${colIndex + 1}`);
+    matrix[rowIndex][colIndex] = number;
+    number === 0 ? cell.innerHTML = `&nbsp;` : cell.innerHTML = number;
+    checkForWin();
+}
+
 // Solve Sudoku function
 function solveSudoku() {
     for (let i = 0; i < 9; i++) {
@@ -114,133 +224,6 @@ function getOption() {
     form.reset();
 }
 
-// Check if game is won
-function checkForWin() {
-    if (checkedCells === 45) {
-        winGame();
-    }
-}
-
-// Adds the toast with winning message
-function winGame() {
-    toastEl.classList.remove('bg-danger');
-    toastEl.classList.add('bg-success');
-    document.getElementById('toastMessage').innerHTML = 'Congrats! You won!';
-    toast.show();
-}
-
-// Checks row if it has the digit
-function checkRow(row, number) {
-    return row.indexOf(number) === -1;
-}
-
-// Checks column if it has the digit
-function checkCol(col, number) {
-    return col.indexOf(number) === -1;
-}
-
-// Checs square if it has the digit
-function checkSquare(square, number) {
-    return square.indexOf(number) === -1;
-}
-
-// Checks all conditions for the chosen number
-function checkConditions(col, row, number) {
-    let squareArray = getSquare(row, col);
-    let colArray = getCol(col);
-    let rowArray = getRow(row);
-    return checkSquare(squareArray, number) && checkCol(colArray, number) && checkRow(rowArray, number);
-}
-
-
-// Returns an array with all the numbers in a square
-function getSquare(rowIndex, colIndex) {
-    let squareStartRow = rowIndex - (rowIndex % 3);
-    let squareStartCol = colIndex - (colIndex % 3);
-    let squareArray = [];
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            squareArray.push(resolvedSudokuMatrix[squareStartRow + i][squareStartCol + j]);
-        }
-    }
-
-    return squareArray;
-}
-
-// Returns an array with all the numbers in a row
-function getRow(index) {
-    return resolvedSudokuMatrix[index];
-}
-
-// Returns an array with all the numbers in a column
-function getCol(index) {
-    let columnArray = [];
-    for (let i = 0; i < 9; i++) {
-        columnArray.push(resolvedSudokuMatrix[i][index]);
-    }
-    return columnArray;
-}
-
-
-// Adds a number to one of the matrix
-function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
-    let cell = document.getElementById(`${rowIndex + 1}${colIndex + 1}`);
-    matrix[rowIndex][colIndex] = number;
-    number === 0 ? cell.innerHTML = `&nbsp;` : cell.innerHTML = number;
-    checkForWin();
-}
-
-// Gets the first available cell
-function getEmptyCell() {
-
-    let emptyCell = { row: "", col: "" };
-
-    resolvedSudokuMatrix.forEach((row, rowIndex) => {
-        if (emptyCell.col !== "") return;
-
-        let firstZero = row.find(col => col === 0);
-
-        if (firstZero === undefined) return;
-
-        emptyCell.row = rowIndex;
-        emptyCell.col = row.indexOf(firstZero);
-    })
-
-    if (emptyCell.col !== "") return emptyCell;
-
-    return false;
-}
-
-
-//Generates the unique board
-function generateBoard() {
-    let emptyCell = getEmptyCell();
-
-    if (!emptyCell) {
-        return resolvedSudokuMatrix;
-    }
-
-    let rowIndex = parseInt(emptyCell.row);
-    let colIndex = parseInt(emptyCell.col);
-    try {
-        for (number of shuffleArray(numbers)) {
-            if (checkConditions(colIndex, rowIndex, number)) {
-                addNumber(rowIndex, colIndex, number);
-                generateBoard();
-
-                if (generateBoard()) {
-                    return resolvedSudokuMatrix;
-                }
-
-                resolvedSudokuMatrix[rowIndex][colIndex] = 0;
-
-            }
-        }
-    } catch (err) {
-    }
-
-    return false;
-}
 
 // Makes a copy of the board for comparisons
 function copyBoards() {
@@ -277,14 +260,6 @@ function showPlayableBoard() {
     }
 }
 
-// Starts the game
-function playGame() {
-    generateBoard();
-    copyBoards();
-    produceEmptyCells();
-    showPlayableBoard();
-}
-
 
 // Shufles an array randomly
 function shuffleArray(array) {
@@ -298,9 +273,32 @@ function shuffleArray(array) {
     return shuffledArray;
 }
 
+// Check if game is won
+function checkForWin() {
+    if (checkedCells === 45) {
+        winGame();
+    }
+}
+
+// Adds the toast with winning message
+function winGame() {
+    toastEl.classList.remove('bg-danger');
+    toastEl.classList.add('bg-success');
+    document.getElementById('toastMessage').innerHTML = 'Congrats! You won!';
+    toast.show();
+}
+
 // Generates a random number
 function generateRandomNumber() {
     return Math.floor(Math.random() * 9);
+}
+
+// Starts the game
+function playGame() {
+    generateBoard();
+    copyBoards();
+    produceEmptyCells();
+    showPlayableBoard();
 }
 
 // Play game
