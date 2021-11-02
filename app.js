@@ -1,3 +1,11 @@
+// Buttons
+let solveSudokuButton = document.getElementById('solveSudokuBtn');
+solveSudokuButton.addEventListener('click', () => solveSudoku());
+
+let resetGameButton = document.getElementById('resetPage');
+resetGameButton.addEventListener('click', () => location.reload())
+
+
 let sudokuMatrix = [[0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0],
@@ -18,6 +26,13 @@ let resolvedSudokuMatrix = [[0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0]];
 
+// Timer Variables
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+let wonGame = false;
+
 let numbers = [1,2,3,4,5,6,7,8,9];
 
 let toastEl = document.getElementById("toastAlert");
@@ -34,6 +49,7 @@ let choice = document.getElementById('makeChoice');
 let form = document.querySelector('form');
 
 // Used to pass data from the clicked cell
+let checkedCells = 0;
 let selectedCell;
 
 choice.addEventListener('click', () => getOption);
@@ -55,35 +71,73 @@ cells.forEach(cell => {
     }
 });
 
-function completeBoard() {
+function startTimerFunction() {
+
+    let timer = setInterval(() => {
+        if(seconds === 59) {
+            seconds = 0;
+            ++minutes;
+        }
+        if(minutes === 60) {
+            ++hours;
+            minutes = 0;
+        }
+        seconds++;
+        document.getElementById('timerDisplay').innerHTML = `${hours > 10 ? hours : '0'+hours}:${minutes > 10 ? minutes : '0'+minutes}:${seconds > 10 ? seconds : '0'+seconds}`;
+    }, 1000);
+}
+
+function solveSudoku() {
     for(let i = 0; i < 9; i++) {
         for(let j = 0; j < 9; j++) {
-            let selectedCell = {cellRow : i + 1, cellCol: j + 1};
-            
+            let cell = {cellRow : i, cellCol: j};
+            if(sudokuMatrix[cell.cellRow][cell.cellCol] === 0) {
+                let number = resolvedSudokuMatrix[cell.cellRow][cell.cellCol];
+                ++checkedCells;
+                addNumber(cell.cellRow,cell.cellCol, number, sudokuMatrix);
+                document.getElementById(`${cell.cellRow + 1}${cell.cellCol + 1}`).style.backgroundColor = '#495867';
+            }
         }
     }
 }
 
 function getOption() {
-    let choseOption = form.elements.choice.value;
+    let choseOption = parseInt(form.elements.choice.value);
     if(choseOption !== '') {
-        if(choseOption === resolvedSudokuMatrix[selectedCell.cellRow][selectedCell.cellCol]) {
+        if(choseOption == resolvedSudokuMatrix[selectedCell.cellRow][selectedCell.cellCol]) {
+            ++checkedCells;
             addNumber(selectedCell.cellRow, selectedCell.cellCol, choseOption, sudokuMatrix);
             document.getElementById(`${selectedCell.cellRow+1}${selectedCell.cellCol+1}`).style.backgroundColor = '#495867';
+
         } else {
             toastEl.classList.add('bg-danger');
             document.getElementById('toastMessage').innerHTML = "The number you entered is wrong. Please choose wisely."
             toast.show();
+            
         }
 
     } else {
         document.getElementById('toastMessage').innerHTML = "Please choose a number."
         toastEl.classList.add('bg-danger');
         toast.show();
+        
     }
     
     modal.hide();
     form.reset();
+}
+
+function checkForWin() {
+    if(checkedCells === 45) {
+        winGame();
+    }
+}
+
+function winGame() {
+    toastEl.classList.remove('bg-danger');
+    toastEl.classList.add('bg-success');
+    document.getElementById('toastMessage').innerHTML = 'Congrats! You won!';
+    toast.show();
 }
 
 function checkRow(row, number) {
@@ -134,6 +188,7 @@ function addNumber(rowIndex, colIndex, number, matrix = resolvedSudokuMatrix) {
     let cell = document.getElementById(`${rowIndex+1}${colIndex+1}`);
     matrix[rowIndex][colIndex] = number;
     number === 0 ? cell.innerHTML = `&nbsp;`: cell.innerHTML = number;
+    checkForWin();
 }
 
 

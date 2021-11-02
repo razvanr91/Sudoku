@@ -22,7 +22,10 @@
 		<h1 class="text-center mt-3">SUDOKU</h1>
 
 		<!-- Sudoku Board -->
-		<div class="container mt-5 w-75 align-content-center">
+		<div class="container mt-3 w-75 align-content-center">
+			<!-- <div class="row text-center">
+				<div class="col"><h3 class="fs-3" id='timerDisplay'>00:00:00</h3></div>
+			</div> -->
 			<table>
 				<tbody>
 					<tr>
@@ -127,8 +130,8 @@
 				</tbody>
 			</table>
 			<div class="control-panel my-2">
-				<button class="btn btn-success mx-2 ">Solve Sudoku</button>
-				<button class="btn btn-warning text-white">Check Sudoku</button>
+				<button class="btn btn-success mx-2" id="solveSudokuBtn">Solve Sudoku</button>
+				<button class="btn btn-primary" id="resetPage">Play again</button>
 			</div>
 
 			<!-- Number choice modal -->
