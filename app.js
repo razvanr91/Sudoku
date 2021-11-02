@@ -224,12 +224,37 @@ function getOption() {
     form.reset();
 }
 
+// Check if game is won
+function checkForWin() {
+    if (checkedCells === 45) {
+        winGame();
+    }
+}
+
+// Adds the toast with winning message
+function winGame() {
+    toastEl.classList.remove('bg-danger');
+    toastEl.classList.add('bg-success');
+    document.getElementById('toastMessage').innerHTML = 'Congrats! You won!';
+    toast.show();
+}
+
 
 // Makes a copy of the board for comparisons
 function copyBoards() {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             sudokuMatrix[i][j] = resolvedSudokuMatrix[i][j];
+        }
+    }
+}
+
+// Shows board with empty cells
+function showPlayableBoard() {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            let number = sudokuMatrix[i][j];
+            addNumber(i, j, number, sudokuMatrix);
         }
     }
 }
@@ -250,16 +275,6 @@ function produceEmptyCells() {
     }
 }
 
-// Shows board with empty cells
-function showPlayableBoard() {
-    for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-            let number = sudokuMatrix[i][j];
-            addNumber(i, j, number, sudokuMatrix);
-        }
-    }
-}
-
 
 // Shufles an array randomly
 function shuffleArray(array) {
@@ -271,21 +286,6 @@ function shuffleArray(array) {
     }
 
     return shuffledArray;
-}
-
-// Check if game is won
-function checkForWin() {
-    if (checkedCells === 45) {
-        winGame();
-    }
-}
-
-// Adds the toast with winning message
-function winGame() {
-    toastEl.classList.remove('bg-danger');
-    toastEl.classList.add('bg-success');
-    document.getElementById('toastMessage').innerHTML = 'Congrats! You won!';
-    toast.show();
 }
 
 // Generates a random number
